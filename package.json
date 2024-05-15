@@ -1,0 +1,14 @@
+{
+  "name": "raytracer",
+  "version": "1.0.0",
+  "description": "Follows along with the Ray Tracer Challenge book by Jamis Buck. Simulates ray casting.",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "author": "Jacob Lord",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^1.6.0"
+  }
+}
