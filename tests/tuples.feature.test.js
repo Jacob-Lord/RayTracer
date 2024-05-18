@@ -1,5 +1,5 @@
 import {describe, test, it, expect} from "vitest";
-import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple } from "../src/libs/intro";
+import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize } from "../src/libs/tuples.feature";
 
 describe('isVector', () => {
     it('should return false if w is equal to 1 (a point)', () => {
@@ -76,5 +76,55 @@ describe('negateTuple', () => {
 
     it('should return an error message if arg is a point', () => {
         expect(negateTuple([1, -2, 3, 1])).toBe(undefined)
+    });
+})
+
+describe('multiplyTuple', () => {
+    it('should return the tuple scaled by the arg scalar value', () => {
+        expect(multiplyTuple([1, -2, 3, -4], 3.5)).toStrictEqual([3.5, -7, 10.5, -14])
+    });
+
+    it('should return the tuple scaled by the arg fraction value', () => {
+        expect(multiplyTuple([1, -2, 3, -4], 0.5)).toStrictEqual([0.5, -1, 1.5, -2])
+    });
+})
+
+describe('magnitude', () => {
+    it('should return 1 as magnitue if arg is 1, 0, 0', () => {
+        expect(magnitude([1, 0, 0])).toBe(1)
+    });
+
+    it('should return 1 as magnitue if arg is 0, 1, 0', () => {
+        expect(magnitude([0, 1, 0])).toBe(1)
+    });
+
+    it('should return 1 as magnitue if arg is 1, 0, 0', () => {
+        expect(magnitude([0, 0, 1])).toBe(1)
+    });
+
+    it('should return sqrt(14) as magnitude if arg is 1, 2, 3', () => {
+        expect(magnitude([1, 2, 3])).toBe(Math.sqrt(14))
+    });
+
+    it('should return sqrt(14) as magnitude if arg is -1, -2, -3', () => {
+        expect(magnitude([-1, -2, -3])).toBe(Math.sqrt(14))
+    });
+})
+
+describe('normalize', () => {
+    it('should return a vector(1, 0, 0) if arg is vector(4, 0, 0)', () => {
+        expect(normalize(vector(4, 0, 0))).toStrictEqual(vector(1, 0, 0)) 
+    });
+
+    it('should return a vector(0.26726, 0.53452, 0.80178) if arg is vector(4, 0, 0)', () => {
+        //rough implementation
+        const x = 1;
+        const y = 2;
+        const z = 3;
+        const myVector = vector(x, y, z, 0);
+        const result = normalize(myVector);
+        expect(result[0]).toBeCloseTo(0.26726, 5);
+        expect(result[1]).toBeCloseTo(0.53452, 5);
+        expect(result[2]).toBeCloseTo(0.80178, 5);
     });
 })

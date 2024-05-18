@@ -27,7 +27,8 @@ export function point(x, y, z) {
 }
 
 export function vector(x, y, z) {
-    return [x, y, z, 0];
+    let vector = [x, y, z, 0];
+    return vector;
 }
 
 export function addTuples([x1, y1, z1, w1], [x2, y2, z2, w2]) {
@@ -45,4 +46,18 @@ export function negateTuple([x, y, z, w]) {
     else {
         return console.log('cannot negate a point, only a vector');
     }
+}
+
+export function multiplyTuple(tuple, value) {
+    return [(tuple[0]*value), (tuple[1]*value), (tuple[2]*value), (tuple[3]*value)]
+}
+
+export function magnitude(tuple) {
+    return Math.sqrt((tuple[0]**2) + (tuple[1]**2) + (tuple[2]**2));
+}
+
+export function normalize(vector)  {
+    const val = multiplyTuple(vector, (1/magnitude(vector)));
+    return val;
+
 }
