@@ -1,5 +1,5 @@
 import {describe, test, it, expect} from "vitest";
-import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize } from "../src/libs/tuples.feature";
+import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize, dot, cross } from "../src/libs/tuples.feature";
 
 describe('isVector', () => {
     it('should return false if w is equal to 1 (a point)', () => {
@@ -73,10 +73,6 @@ describe('negateTuple', () => {
     it('should return the opposite of the tuple', () => {
         expect(negateTuple([1, -2, 3, 0])).toStrictEqual([-1, 2, -3, 0])
     });
-
-    it('should return an error message if arg is a point', () => {
-        expect(negateTuple([1, -2, 3, 1])).toBe(undefined)
-    });
 })
 
 describe('multiplyTuple', () => {
@@ -90,24 +86,24 @@ describe('multiplyTuple', () => {
 })
 
 describe('magnitude', () => {
-    it('should return 1 as magnitue if arg is 1, 0, 0', () => {
-        expect(magnitude([1, 0, 0])).toBe(1)
+    it('should return 1 as magnitude if arg is 1, 0, 0', () => {
+        expect(magnitude(vector(1, 0, 0))).toBe(1)
     });
 
-    it('should return 1 as magnitue if arg is 0, 1, 0', () => {
-        expect(magnitude([0, 1, 0])).toBe(1)
+    it('should return 1 as magnitude if arg is 0, 1, 0', () => {
+        expect(magnitude(vector(0, 1, 0))).toBe(1)
     });
 
-    it('should return 1 as magnitue if arg is 1, 0, 0', () => {
-        expect(magnitude([0, 0, 1])).toBe(1)
+    it('should return 1 as magnitude if arg is 1, 0, 0', () => {
+        expect(magnitude(vector(0, 0, 1))).toBe(1)
     });
 
     it('should return sqrt(14) as magnitude if arg is 1, 2, 3', () => {
-        expect(magnitude([1, 2, 3])).toBe(Math.sqrt(14))
+        expect(magnitude(vector(1, 2, 3))).toBe(Math.sqrt(14))
     });
 
     it('should return sqrt(14) as magnitude if arg is -1, -2, -3', () => {
-        expect(magnitude([-1, -2, -3])).toBe(Math.sqrt(14))
+        expect(magnitude(vector(-1, -2, -3))).toBe(Math.sqrt(14))
     });
 })
 
@@ -118,13 +114,31 @@ describe('normalize', () => {
 
     it('should return a vector(0.26726, 0.53452, 0.80178) if arg is vector(4, 0, 0)', () => {
         //rough implementation
-        const x = 1;
-        const y = 2;
-        const z = 3;
-        const myVector = vector(x, y, z, 0);
-        const result = normalize(myVector);
+        const result = normalize(vector(1, 2, 3));
         expect(result[0]).toBeCloseTo(0.26726, 5);
         expect(result[1]).toBeCloseTo(0.53452, 5);
         expect(result[2]).toBeCloseTo(0.80178, 5);
     });
+})
+
+describe('dot', () => {
+    it('should return scalar value of 20 if arg is vector(1, 2, 3) and vector(2, 3, 4)', ()  => {
+        const vectorA = vector(1, 2, 3);
+        const vectorB = vector(2, 3, 4);
+        expect(dot(vectorA, vectorB)).toBe(20)
+    });
+})
+
+describe('cross', () => {
+    it('should return a vector(-1, 2, -1)', () => {
+        const vectorA = vector(1, 2, 3);
+        const vectorB = vector(2, 3, 4);
+        expect(cross(vectorA, vectorB)).toStrictEqual(vector(-1, 2, -1));
+    });
+
+    it('should return a vector(1, -2, 1)', () => {
+        const vectorA = vector(1, 2, 3);
+        const vectorB = vector(2, 3, 4);
+        expect(cross(vectorB, vectorA)).toStrictEqual(vector(1, -2, 1));
+    })
 })

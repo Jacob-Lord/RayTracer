@@ -40,12 +40,7 @@ export function subtractTuples([x1, y1, z1, w1], [x2, y2, z2, w2]) {
 }
 
 export function negateTuple([x, y, z, w]) {
-    if (w == 0) {
-        return [(0-x), (0-y), (0-z), w];
-    }
-    else {
-        return console.log('cannot negate a point, only a vector');
-    }
+    return [(0-x), (0-y), (0-z), (0-w)];
 }
 
 export function multiplyTuple(tuple, value) {
@@ -53,11 +48,18 @@ export function multiplyTuple(tuple, value) {
 }
 
 export function magnitude(tuple) {
-    return Math.sqrt((tuple[0]**2) + (tuple[1]**2) + (tuple[2]**2));
+    return Math.sqrt((tuple[0]**2) + (tuple[1]**2) + (tuple[2]**2) + (tuple[3]**2));
 }
 
 export function normalize(vector)  {
     const val = multiplyTuple(vector, (1/magnitude(vector)));
     return val;
+}
 
+export function dot(vectorA, vectorB) {
+    return (vectorA[0] * vectorB[0]) + (vectorA[1] * vectorB[1]) + (vectorA[2] * vectorB[2] + (vectorA[3] * vectorB[3]));
+}
+
+export function cross(vectorA, vectorB) {
+    return vector(((vectorA[1]*vectorB[2]) - (vectorA[2] * vectorB[1])), ((vectorA[2] * vectorB[0]) - (vectorA[0] * vectorB[2])), ((vectorA[0] * vectorB[1]) - (vectorA[1] * vectorB[0])));
 }
