@@ -6,9 +6,10 @@
   "scripts": {
     "test": "vitest"
   },
+  "type": "module",
   "author": "Jacob Lord",
   "license": "ISC",
   "devDependencies": {
-    "vitest": "^1.6.0"
+  "vitest": "^1.6.0"
   }
 }
