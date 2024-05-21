@@ -1,5 +1,5 @@
 import {describe, test, it, expect} from "vitest";
-import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize, dot, cross } from "../src/libs/tuples.feature";
+import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize, dot, cross, color, addColors, subtractColors, multiplyColor, hadamard_product } from "../src/libs/tuples.feature";
 
 describe('isVector', () => {
     it('should return false if w is equal to 1 (a point)', () => {
@@ -140,5 +140,51 @@ describe('cross', () => {
         const vectorA = vector(1, 2, 3);
         const vectorB = vector(2, 3, 4);
         expect(cross(vectorB, vectorA)).toStrictEqual(vector(1, -2, 1));
-    })
+    });
+})
+
+describe('color', () => {
+    it('should have correct properties if arg is color(-0.5, 0.4, 1.7)', () => {
+        let c = color(-0.5, 0.4, 1.7);
+        expect(c.red).toBe(-0.5);
+        expect(c.green).toBe(0.4);
+        expect(c.blue).toBe(1.7);
+    });
+})
+
+describe('addColors', () => {
+    it('should return color(1.6, 0.7, 1.0)', () => {
+        let c1 = color(0.9, 0.6, 0.75);
+        let c2 = color(0.7, 0.1, 0.25);
+        expect(addColors(c1, c2)).toStrictEqual(color(1.6, 0.7, 1.0))
+    });
+})
+
+describe('subtractColors', () => {
+    it('should return color(0.2, 0.5, 0.5)', () => {
+        let c1 = color(0.9, 0.6, 0.75);
+        let c2 = color(0.7, 0.1, 0.25);
+        let c3 = subtractColors(c1, c2);
+        expect(c3.red).toBeCloseTo(0.2);
+        expect(c3.green).toBeCloseTo(0.5);
+        expect(c3.blue).toBeCloseTo(0.5);
+    });
+})
+
+describe('multiplyColor', () => {
+    it('should return color(0.4, 0.6, 0.8)', () => {
+        let c = color(0.2, 0.3, 0.4);
+        expect(multiplyColor(c, 2)).toStrictEqual(color(0.4, 0.6, 0.8));
+    });
+})
+
+describe('hadamard_product', () => {
+    it('should return color(0.9, 0.2, 0.04)', () => {
+        let c1 = color(1, 0.2, 0.4);
+        let c2 = color(0.9, 1, 0.1);
+        let c3 = hadamard_product(c1, c2);
+        expect(c3.red).toBeCloseTo(0.9);
+        expect(c3.green).toBeCloseTo(0.2);
+        expect(c3.blue).toBeCloseTo(0.04);
+    });
 })

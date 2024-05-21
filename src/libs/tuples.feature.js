@@ -63,3 +63,29 @@ export function dot(vectorA, vectorB) {
 export function cross(vectorA, vectorB) {
     return vector(((vectorA[1]*vectorB[2]) - (vectorA[2] * vectorB[1])), ((vectorA[2] * vectorB[0]) - (vectorA[0] * vectorB[2])), ((vectorA[0] * vectorB[1]) - (vectorA[1] * vectorB[0])));
 }
+
+export function color(red, green, blue) {
+    let c = {
+        red: red,
+        green: green,
+        blue: blue
+    };
+    return c;
+}
+
+export function addColors(c1, c2) {
+    return color((c1.red + c2.red), (c1.green + c2.green), (c1.blue + c2.blue));    
+}
+
+export function subtractColors(c1, c2) {
+    return color((c1.red - c2.red).toPrecision(), (c1.green - c2.green), (c1.blue - c2.blue));  
+}
+
+export function multiplyColor(c, factor) {
+    return (color((c.red * factor), (c.green * factor), (c.blue * factor)));
+}
+
+export function hadamard_product(c1, c2) {
+    //multiple two colors together as a method of blending colors
+    return color((c1.red * c2.red), (c1.green * c2.green), (c1.blue * c2.blue))
+}
