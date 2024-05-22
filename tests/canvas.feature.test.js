@@ -1,6 +1,7 @@
 import {describe, test, it, expect} from "vitest";
-import { canvas , write_pixel, pixel_at} from "../src/libs/canvas.feature";
+import { canvas , write_pixel, pixel_at, canvas_to_ppm} from "../src/libs/canvas.feature";
 import { color } from "../src/libs/tuples.feature";
+import { readFile } from "fs";
 
 describe('canvas', () => {
     it('should return  a 10px x 20px canvas if args are width = 10 and height = 20. Every pixel should be initialized to black color(0, 0, 0)', () => {
@@ -24,5 +25,21 @@ describe('write_pixel', () => {
         write_pixel(c, 2, 3, red);
         let pixel = pixel_at(c, 2, 3)
         expect(pixel).toBe(red);
+    });
+})
+
+describe('canvas_to_ppm', () => {
+    it('should create a file with a PPM-formatted header', () => {
+        const w = 5;
+        const h = 3;
+        let c = canvas(w, h);
+        let ppm = canvas_to_ppm(c);
+        readFile('myPPMfile.txt', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            expect(data).toBe(ppm);
+        })
     })
 })
