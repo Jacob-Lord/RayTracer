@@ -34,12 +34,33 @@ describe('canvas_to_ppm', () => {
         const h = 3;
         let c = canvas(w, h);
         let ppm = canvas_to_ppm(c);
-        readFile('myPPMfile.txt', 'utf8', (err, data) => {
+        readFile('myPPMfile.ppm', 'utf8', (err, data) => {
             if (err) {
                 console.error(err);
                 return;
             }
             expect(data).toBe(ppm);
         })
+    });
+
+
+    it('should have pixel data conrstucted correct for a canvas with 3 pixels colored', () => {
+        const w = 5;
+        const h = 3;
+        let c = canvas(w, h);
+        const c1 = color(1.5, 0, 0);
+        const c2 = color(0, 0.5, 0);
+        const c3 = color(-0.5, 0, 1);
+        write_pixel(c, 0, 0, c1);
+        write_pixel(c, 2, 1, c2);
+        write_pixel(c, 4, 2, c3);
+        const ppm = canvas_to_ppm(c);
+        readFile('myPPMfile.ppm', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }    
+            expect(data).toBe(ppm);
+        });
     })
 })
