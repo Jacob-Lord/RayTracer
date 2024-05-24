@@ -1,4 +1,4 @@
-//import { color } from "../libs/tuples.feature";
+import { color, multiplyColor } from "../libs/tuples.feature";
 import * as fs from "fs";
 //import { multiplyTuple } from "./tuples.feature";
 //const fs = require('fs');
@@ -112,26 +112,5 @@ export function canvas_to_ppm(c) {
 
 
 
-export function color(red, green, blue) {
-  let c = {
-      red: red,
-      green: green,
-      blue: blue
-  };
-  return c;
-}
 
-export function multiplyColor(c, factor) {
-  return (color((c.red * factor), (c.green * factor), (c.blue * factor)));
-}
 
-let c = canvas(5, 3);
-const c1 = color(1.5, 0, 0);
-const c2 = color(0, 0.5, 0);
-const c3 = color(-0.5, 0, 1);
-write_pixel(c, 0, 0, c1);
-write_pixel(c, 2, 1, c2);
-write_pixel(c, 4, 2, c3);
-let ppm = canvas_to_ppm(c);
-
-console.log(ppm);

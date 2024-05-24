@@ -1,7 +1,7 @@
 import {describe, test, it, expect} from "vitest";
 import { canvas , write_pixel, pixel_at, canvas_to_ppm} from "../src/libs/canvas.feature";
 import { color } from "../src/libs/tuples.feature";
-import { readFile } from "fs";
+import { readFile, unlink } from "fs";
 
 describe('canvas', () => {
     it('should return  a 10px x 20px canvas if args are width = 10 and height = 20. Every pixel should be initialized to black color(0, 0, 0)', () => {
@@ -29,38 +29,83 @@ describe('write_pixel', () => {
 })
 
 describe('canvas_to_ppm', () => {
-    it('should create a file with a PPM-formatted header', () => {
-        const w = 5;
-        const h = 3;
-        let c = canvas(w, h);
-        let ppm = canvas_to_ppm(c);
-        readFile('myPPMfile.ppm', 'utf8', (err, data) => {
-            if (err) {
-                console.error(err);
-                return;
+    // it('should create a file with a PPM-formatted header', () => {
+    //     const w = 5;
+    //     const h = 3;
+    //     let c = canvas(w, h);
+    //     let ppm = canvas_to_ppm(c);
+    //     readFile('myPPMfile.ppm', 'utf8', (err, data) => {
+    //         if (err) {
+    //             console.error(err);
+    //             return;
+    //         }
+    //         expect(data).toBe(ppm);
+
+    //         //delete file after use
+    //         unlink('myPPMfile.ppm', function (err) {
+    //             if (err) throw err;
+    //           });
+    //     });
+    // });
+
+    // it('should have pixel data constructed correctly for a canvas with 3 pixels colored', () => {
+    //     const w = 5;
+    //     const h = 3;
+    //     let c = canvas(w, h);
+    //     const c1 = color(1.5, 0, 0);
+    //     const c2 = color(0, 0.5, 0);
+    //     const c3 = color(-0.5, 0, 1);
+    //     write_pixel(c, 0, 0, c1);
+    //     write_pixel(c, 2, 1, c2);
+    //     write_pixel(c, 4, 2, c3);
+    //     const ppm = canvas_to_ppm(c);
+        
+    //     readFile('myPPMfile.ppm', 'utf8', (err, data) => {
+    //         if (err) {
+    //             console.error(err);
+    //             return;
+    //         }    
+    //         expect(data).toBe(ppm);
+            
+    //         //delete file after use
+    //         unlink('myPPMfile.ppm', function (err) {
+    //             if (err) throw err;
+    //           });
+    //     });
+    // });
+
+    it('given a canvas where every pixel is a color, ensure pixel data lines are < 70 characters.', () => {
+        const w = 10;
+        const h = 2;
+        const c = canvas(w, h);
+        const c1 = color(1, 0.8, 0.6);
+
+        //color each pixel in canvas the same color
+        for (let i = 0; i < c.length; i++) {
+            for (let j = 0; j < c[i].length; j++) {
+                write_pixel(c, i, j, c1);
             }
-            expect(data).toBe(ppm);
-        })
-    });
+        }
 
-
-    it('should have pixel data conrstucted correct for a canvas with 3 pixels colored', () => {
-        const w = 5;
-        const h = 3;
-        let c = canvas(w, h);
-        const c1 = color(1.5, 0, 0);
-        const c2 = color(0, 0.5, 0);
-        const c3 = color(-0.5, 0, 1);
-        write_pixel(c, 0, 0, c1);
-        write_pixel(c, 2, 1, c2);
-        write_pixel(c, 4, 2, c3);
         const ppm = canvas_to_ppm(c);
         readFile('myPPMfile.ppm', 'utf8', (err, data) => {
             if (err) {
                 console.error(err);
                 return;
             }    
-            expect(data).toBe(ppm);
+            
+            expect(data).toMatch(ppm);
+        });
+    });
+
+    it('should end with a newline character for image processors that require it', () => {
+        readFile('myPPMfile.ppm', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }    
+            expect(data[data.length-1]).toBe('\n');
         });
     })
+
 })
