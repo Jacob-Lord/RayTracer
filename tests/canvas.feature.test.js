@@ -9,11 +9,11 @@ describe('canvas', () => {
         let h = 20;
         let myCanvas = canvas(w, h)
 
-        expect(myCanvas.length).toBe(10);
+        expect(myCanvas.length).toBe(20);
         
         //for (let x = 0; x < w; x++) {
             //expect(myCanvas[x].length).toBe(20);
-            myCanvas.forEach((val) => expect(val.length).toBe(20)); //multiple for loops (could be optimized for sure)
+            myCanvas.forEach((val) => expect(val.length).toBe(10)); //multiple for loops (could be optimized for sure)
             myCanvas.forEach((val) => val.forEach((c) => expect(c).toStrictEqual(color(0, 0, 0)))); 
     });
 })
@@ -83,7 +83,7 @@ describe('canvas_to_ppm', () => {
         //color each pixel in canvas the same color
         for (let i = 0; i < c.length; i++) {
             for (let j = 0; j < c[i].length; j++) {
-                write_pixel(c, i, j, c1);
+                write_pixel(c, j, i, c1);
             }
         }
 

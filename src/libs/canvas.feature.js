@@ -1,13 +1,11 @@
-import { color, multiplyColor } from "../libs/tuples.feature";
+import { color, multiplyColor } from "./tuples.feature.js";
 import * as fs from "fs";
-//import { multiplyTuple } from "./tuples.feature";
-//const fs = require('fs');
 
 export function canvas(width, height) {
-    let canvas= new Array(width);
+    let canvas= new Array(height);
 
     for (let i = 0; i < canvas.length; i++) {
-      canvas[i] = new Array(height);
+      canvas[i] = new Array(width);
       for (let j = 0; j < canvas[i].length; j++) {
         canvas[i][j] = color(0, 0, 0);
       }
@@ -16,18 +14,26 @@ export function canvas(width, height) {
 }
 
 export function pixel_at(c, x, y) {
-    let pixel = c[x][y];
+    let pixel = c[y][x];
     return pixel;
 }
 
 export function write_pixel(c, x, y, color) {
-    c[x][y] = color;
+  if (y < c.length && y > 0) {
+    c[y][x] = color;
+  }
 }
 
 export function canvas_to_ppm(c) {
-  let w = c.length;
-  let h = c[w-1].length; //display is rectangular, so first 
+
+  //initialize height and width
+  let h = c.length;
+  let w = c[h-1].length; //display is rectangular, so first 
+
+  //initialize ppm file header 
   const file_header = ("P3\n" + w + " " + h + "\n255\n");
+
+  //will hold pixel data
   let file_body = "";
   let file_string = "";
 
@@ -109,8 +115,3 @@ export function canvas_to_ppm(c) {
     return pixel_color;
   }
 }
-
-
-
-
-
