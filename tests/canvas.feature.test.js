@@ -107,5 +107,4 @@ describe('canvas_to_ppm', () => {
             expect(data[data.length-1]).toBe('\n');
         });
     })
-
 })
