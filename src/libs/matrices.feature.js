@@ -32,46 +32,41 @@ export function areMatricesEqual(matrixA, matrixB) {
 }
 
 export function multiplyMatrix(A, B) {
-
+    //larger matrix must be the first parameter!!!
+    //this reassignment portion fixes this issue (patchwork maybe)
+    const a = A;
+    const b = B;
+    //reassigns vars if first parameter is smaller
+    if (A.length < B.length) {
+        let a = B;
+        let b = A;
+    }
 
     //initialize matrix
-    let size = A.length;
+    let size = a.length;
     let result = 0;
 
-
-    if (typeof B[0] == 'object') {
+    console.log(typeof b[0]);
+    if (typeof b[0] == 'object') {
         let M = matrix(size);
-        for (let row = 0; row < A.length; row++) {
-            for (let col = 0; col < B.length; col++) {
-                    M[row][col] = (A[row][0] * B[0][col]) + (A[row][1] * B[1][col]) + (A[row][2] * B[2][col]) + (A[row][3] * B[3][col]);
+        for (let row = 0; row < a.length; row++) {
+            for (let col = 0; col < b.length; col++) {
+                    M[row][col] = (a[row][0] * b[0][col]) + (a[row][1] * b[1][col]) + (a[row][2] * b[2][col]) + (a[row][3] * b[3][col]);
             }
         }
         return M;
     }
 
-    else if (typeof B[0] == 'number') {
+    else if (typeof b[0] == 'number') {
         let N = [size];
-        for (let row = 0; row < A.length; row++) {
-                for (let col = 0; col < B.length; col++) {
-                    N[row] = (A[row][0] * B[0]) + (A[row][1] * B[1]) + (A[row][2] * B[2]) + (A[row][3] * B[3]);
+        for (let row = 0; row < a.length; row++) {
+                for (let col = 0; col < b.length; col++) {
+                    N[row] = (a[row][0] * b[0]) + (a[row][1] * b[1]) + (a[row][2] * b[2]) + (a[row][3] * b[3]);
                 }
             }
         return N;
         }
            
-        
-
-    // for (let row = 0; row < A.length; row++) {
-    //     for (let col = 0; col < B.length; col++) {
-    //         console.log(typeof B[col]);
-    //         if (typeof B[col] == 'object') {
-    //             M[row][col] = (A[row][0] * B[0][col]) + (A[row][1] * B[1][col]) + (A[row][2] * B[2][col]) + (A[row][3] * B[3][col]);
-    //         }
-    //         else if (typeof B[col] == 'number') {
-    //             N[row] = (A[row][0] * B[col]) + (A[row][1] * B[col]) + (A[row][2] * B[col]) + (A[row][3] * B[col]);
-    //         }
-    //     }
-    // }
 
     return ;
 }

@@ -1,6 +1,12 @@
 import {describe, test, it, expect} from "vitest";
 import { equal, point } from "../src/libs/tuples.feature";
-import { matrix, areMatricesEqual, matrixMultiply, multiplyMatrix } from "../src/libs/matrices.feature";
+import { matrix, areMatricesEqual, multiplyMatrix } from "../src/libs/matrices.feature";
+
+const identity_matrix = [[1, 0, 0, 0],
+                         [0, 1, 0, 0],
+                         [0, 0, 1, 0],
+                         [0, 0, 0, 1]];
+
 
 describe(matrix, () => {
     it('should return a 4x4 matrix with 16 values', () => {
@@ -228,6 +234,34 @@ describe(multiplyMatrix, () => {
         
         //test result
         expect(result).toStrictEqual(point(18, 24, 33, 1));
+    })
+
+    it('should return the same matrix when multiplied by the identity matrix', () => {        
+        //set values for matrix A
+        const row1 = [0, 1, 2, 4];
+        const row2 = [1, 2, 4, 8];
+        const row3 = [2, 4, 8, 16];
+        const row4 = [4, 8, 16, 32];
+
+        //initialize matrix A
+        let A = matrix(4);
+        for (let i = 0; i < 4; i++) {
+            A[0][i] = row1[i];
+            A[1][i] = row2[i]; 
+            A[2][i] = row3[i];
+            A[3][i] = row4[i];
+        }
+
+        const result = multiplyMatrix(A, identity_matrix);
+
+        //test result
+        expect(result).toStrictEqual(A);
+    })
+
+    it('should return the same tuple when multipled by the identity matrix', () => {
+        const a = [1, 2, 3, 4];
+        const result = multiplyMatrix(identity_matrix, a);
+        expect(result).toStrictEqual(a);
     })
 
 })
