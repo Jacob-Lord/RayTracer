@@ -70,3 +70,23 @@ export function multiplyMatrix(A, B) {
 
     return ;
 }
+
+export function transpose(A) {
+    const size = A.length;
+    let temp = matrix(size);
+
+    for (let row = 0; row < size; row++) {
+        for (let col = 0; col < size; col++) {
+            temp[col][row] = A[row][col];
+        }
+    }
+
+    return temp;
+
+}
+
+export function determinant(A) {
+    let ad = A[0][0] * A[1][1];
+    let bc = A[0][1] * A[1][0];
+    return (ad - bc);
+}

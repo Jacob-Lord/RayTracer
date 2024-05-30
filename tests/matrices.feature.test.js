@@ -1,14 +1,14 @@
 import {describe, test, it, expect} from "vitest";
 import { equal, point } from "../src/libs/tuples.feature";
-import { matrix, areMatricesEqual, multiplyMatrix } from "../src/libs/matrices.feature";
+import { determinant, matrix, multiplyMatrix, areMatricesEqual, transpose } from "../src/libs/matrices.feature";
 
 const identity_matrix = [[1, 0, 0, 0],
                          [0, 1, 0, 0],
                          [0, 0, 1, 0],
                          [0, 0, 0, 1]];
 
-
 describe(matrix, () => {
+
     it('should return a 4x4 matrix with 16 values', () => {
 
         //initialize matrix values
@@ -43,7 +43,7 @@ describe(matrix, () => {
         expect(myMatrix[2][2]).toBe(11);
         expect(myMatrix[3][0]).toBe(13.5);
         expect(myMatrix[3][2]).toBe(15.5);
-    })
+    });
 
     it('should return a 2x2 matrix with the proper values', () => {
         let myMatrix = matrix(2);
@@ -79,7 +79,7 @@ describe(matrix, () => {
         expect(myMatrix[0][0]).toBe(-3);
         expect(myMatrix[1][1]).toBe(-2);
         expect(myMatrix[2][2]).toBe(1);
-    })
+    });
 })
 
 describe(areMatricesEqual, () => {
@@ -113,7 +113,7 @@ describe(areMatricesEqual, () => {
 
         //test result
         expect(result).toBe(true);
-    })
+    });
 
     it('should return false if matrices are not equal', () => {
 
@@ -153,7 +153,7 @@ describe(areMatricesEqual, () => {
 
         //test result
         expect(result).toBe(false);
-    })
+    });
 })
 
 describe(multiplyMatrix, () => {
@@ -208,7 +208,7 @@ describe(multiplyMatrix, () => {
         let result = multiplyMatrix(A, B);
         //test result
         expect(result).toStrictEqual(C);
-    })
+    });
 
     it('should return the correct tuple when args are matrix and a tuple', () => {
 
@@ -234,7 +234,7 @@ describe(multiplyMatrix, () => {
         
         //test result
         expect(result).toStrictEqual(point(18, 24, 33, 1));
-    })
+    });
 
     it('should return the same matrix when multiplied by the identity matrix', () => {        
         //set values for matrix A
@@ -256,12 +256,59 @@ describe(multiplyMatrix, () => {
 
         //test result
         expect(result).toStrictEqual(A);
-    })
+    });
 
     it('should return the same tuple when multipled by the identity matrix', () => {
         const a = [1, 2, 3, 4];
         const result = multiplyMatrix(identity_matrix, a);
         expect(result).toStrictEqual(a);
-    })
+    });
+})
 
+describe(transpose, () => {
+    it('should return the transposed version of the matrix', () => {
+        //initialize matrix A
+        let matrix_A = matrix(4);
+        let row1 = [0, 9, 3, 0];
+        let row2 = [9, 8, 0, 8];
+        let row3 = [1, 8, 5, 3];
+        let row4 = [0, 0, 5, 8];
+
+        matrix_A[0] = row1;
+        matrix_A[1] = row2;
+        matrix_A[2] = row3;
+        matrix_A[3] = row4;
+
+        //intialize expected result for transpose(A) for comparison
+        let result_matrix = matrix(4);
+        row1 = [0, 9, 1, 0];
+        row2 = [9, 8, 8, 0];
+        row3 = [3, 0, 5, 5];
+        row4 = [0, 8, 3, 8];
+
+        result_matrix[0] = row1;
+        result_matrix[1] = row2;
+        result_matrix[2] = row3;
+        result_matrix[3] = row4;
+
+        //transpose the original matrix
+        const result = transpose(matrix_A);
+
+        //test that transposed matrix matches expected result
+        expect(result).toStrictEqual(result_matrix);
+    });
+
+    it('should return the identity matrix if it is transposed', () => {
+        const result = transpose(identity_matrix);
+        expect(result).toStrictEqual(identity_matrix);
+    })
+})
+
+describe(determinant, () => {
+    it('should return the determinant of the 2x2 matrix', () => {
+        let myMatrix = matrix(2);
+        myMatrix = [[1, 5], [-3, 2]];
+        const result = determinant(myMatrix);
+        expect(result).toBe(17);
+    });
 })
