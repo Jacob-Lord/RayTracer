@@ -1,6 +1,6 @@
 import {describe, test, it, expect} from "vitest";
 import { equal, point } from "../src/libs/tuples.feature";
-import { determinant, matrix, multiplyMatrix, areMatricesEqual, transpose } from "../src/libs/matrices.feature";
+import { areMatricesEqual, determinant, matrix, multiplyMatrix, submatrix, transpose } from "../src/libs/matrices.feature";
 
 const identity_matrix = [[1, 0, 0, 0],
                          [0, 1, 0, 0],
@@ -310,5 +310,32 @@ describe(determinant, () => {
         myMatrix = [[1, 5], [-3, 2]];
         const result = determinant(myMatrix);
         expect(result).toBe(17);
+    });
+})
+
+describe(submatrix, () => {
+    it('should return the 2x2 submatrix of the 3x3 matrix', () => {
+        let myMatrix = matrix(3);
+        myMatrix = [[1, 5, 0],
+                   [-3, 2, 7],
+                   [0, 6, -3]];
+        
+        const the_submatrix = [[-3, 2], [0, 6]];
+        const result = submatrix(myMatrix, 0, 2);
+        expect(result).toStrictEqual(the_submatrix);
+    });
+
+    it('should return the 3x3 submatrix of the 4x4 matrix', () => {
+        let myMatrix = matrix(4);
+        myMatrix = [[-6, 1, 1, 6],
+                   [-8, 5, 8, 6],
+                   [-1, 0, 8, 2],
+                   [-7, 1, -1, 1]];
+        
+        const the_submatrix = [[-6, 1, 6],
+                               [-8, 8, 6],
+                               [-7, -1, 1]];
+        const result = submatrix(myMatrix, 2, 1);
+        expect(result).toStrictEqual(the_submatrix);
     });
 })

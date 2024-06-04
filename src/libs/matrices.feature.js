@@ -90,3 +90,27 @@ export function determinant(A) {
     let bc = A[0][1] * A[1][0];
     return (ad - bc);
 }
+
+export function submatrix(A, row, col) {
+    let size = A.length;
+    //submatrix will be a step down from the 
+    let result_matrix = matrix(size-1);
+    let row_count = 0;
+    let col_count = -1; //offset by one for iteration in double loop
+
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            if (i != row && j != col) {
+                if (col_count < result_matrix.length-1) {
+                    col_count++;
+                }
+                else {
+                    col_count = 0;
+                    row_count++;
+                }
+                result_matrix[row_count][col_count] = A[i][j];
+            }
+        }   
+    }
+    return result_matrix;
+}
