@@ -311,6 +311,28 @@ describe(determinant, () => {
         const result = determinant(myMatrix);
         expect(result).toBe(17);
     });
+
+    it('should return the determinant of the 3x3 matrix', () => {
+        let A = [[1, 2, 6],
+                 [-5, 8, -4], 
+                 [2, 6, 4]];
+        expect(cofactor(A, 0, 0)).toBe(56);
+        expect(cofactor(A, 0, 1)).toBe(12);
+        expect(cofactor(A, 0, 2)).toBe(-46);
+        expect(determinant(A)).toBe(-196);
+    });
+
+    it('should return the determinant of the 4x4 matrix', () => {
+        let A = [[-2, -8, 3, 5],
+                 [-3, 1, 7, 3],
+                 [1, 2, -9, 6], 
+                 [-6, 7, 7, -9]];
+        expect(cofactor(A, 0, 0)).toBe(690);
+        expect(cofactor(A, 0, 1)).toBe(447);
+        expect(cofactor(A, 0, 2)).toBe(210);
+        expect(cofactor(A, 0, 3)).toBe(51);
+        expect(determinant(A)).toBe(-4071);
+    })
 })
 
 describe(submatrix, () => {
@@ -361,7 +383,7 @@ describe(cofactor, () => {
                        [6, -1, 5]];
         let m = minor(A, 0, 0);
         let c = cofactor(A, 0, 0);
-        console.log(c);
+
         expect(m).toBe(c);
 
         m = minor(A, 1, 0);

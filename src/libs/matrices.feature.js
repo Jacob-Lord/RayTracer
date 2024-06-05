@@ -46,7 +46,6 @@ export function multiplyMatrix(A, B) {
     let size = a.length;
     let result = 0;
 
-    console.log(typeof b[0]);
     if (typeof b[0] == 'object') {
         let M = matrix(size);
         for (let row = 0; row < a.length; row++) {
@@ -86,9 +85,20 @@ export function transpose(A) {
 }
 
 export function determinant(A) {
-    let ad = A[0][0] * A[1][1];
-    let bc = A[0][1] * A[1][0];
-    return (ad - bc);
+    //if matrix is 2x2, calculate determinant using ad - bc
+    if(A.length <= 2) {
+        let ad = A[0][0] * A[1][1];
+        let bc = A[0][1] * A[1][0];
+        return (ad - bc);
+    }
+    //if matrix is 3x3 or larger, multiply a row by the cofactor and sum to calculate determinant
+    else {
+        let determinant = 0;
+        for (let i = 0; i < A[0].length; i++) {
+            determinant += (A[0][i] * cofactor(A, 0, i));
+        }
+        return determinant;
+    }
 }
 
 export function submatrix(A, row, col) {
