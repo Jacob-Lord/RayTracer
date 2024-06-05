@@ -114,3 +114,8 @@ export function submatrix(A, row, col) {
     }
     return result_matrix;
 }
+
+export function minor(A, row, col) {
+    let B = submatrix(A, row, col);
+    return determinant(B);
+}

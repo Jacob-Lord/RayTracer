@@ -1,6 +1,6 @@
 import {describe, test, it, expect} from "vitest";
 import { equal, point } from "../src/libs/tuples.feature";
-import { areMatricesEqual, determinant, matrix, multiplyMatrix, submatrix, transpose } from "../src/libs/matrices.feature";
+import { areMatricesEqual, determinant, matrix, minor, multiplyMatrix, submatrix, transpose } from "../src/libs/matrices.feature";
 
 const identity_matrix = [[1, 0, 0, 0],
                          [0, 1, 0, 0],
@@ -338,4 +338,18 @@ describe(submatrix, () => {
         const result = submatrix(myMatrix, 2, 1);
         expect(result).toStrictEqual(the_submatrix);
     });
+})
+
+describe(minor, () => {
+    it('should return the determinant of the minor of the 3x3 matrix', () =>{
+        let myMatrix = matrix(3);
+        myMatrix = [[3, 5, 0],
+                    [2, -1, -7], 
+                    [6, -1, 5]];
+        let B = submatrix(myMatrix, 1, 0);
+        let B_result = determinant(B);
+
+        expect(minor(myMatrix, 1, 0)).toBe(B_result);
+
+    })
 })
