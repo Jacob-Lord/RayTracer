@@ -1,6 +1,6 @@
 import {describe, test, it, expect} from "vitest";
 import { equal, point } from "../src/libs/tuples.feature";
-import { areMatricesEqual, determinant, matrix, minor, multiplyMatrix, submatrix, transpose } from "../src/libs/matrices.feature";
+import { areMatricesEqual, cofactor, determinant, matrix, minor, multiplyMatrix, submatrix, transpose } from "../src/libs/matrices.feature";
 
 const identity_matrix = [[1, 0, 0, 0],
                          [0, 1, 0, 0],
@@ -351,5 +351,22 @@ describe(minor, () => {
 
         expect(minor(myMatrix, 1, 0)).toBe(B_result);
 
+    })
+})
+
+describe(cofactor, () => {
+    it('should return the cofactor of a 3x3 matrix', () => {
+       let A = [[3, 5, 0],
+                       [2, -1, -7], 
+                       [6, -1, 5]];
+        let m = minor(A, 0, 0);
+        let c = cofactor(A, 0, 0);
+        console.log(c);
+        expect(m).toBe(c);
+
+        m = minor(A, 1, 0);
+        c = cofactor(A, 1, 0);
+        expect(m).toBe(25);
+        expect(c).toBe(-25);
     })
 })

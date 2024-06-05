@@ -119,3 +119,14 @@ export function minor(A, row, col) {
     let B = submatrix(A, row, col);
     return determinant(B);
 }
+
+export function cofactor(A, row, col) {
+    let m = minor(A, row, col);
+
+    if((row + col) % 2 == 0) {
+        return m;
+    }
+    else {
+        return m * -1;
+    }
+}
