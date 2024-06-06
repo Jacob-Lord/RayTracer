@@ -31,6 +31,29 @@ export function areMatricesEqual(matrixA, matrixB) {
         }
 }
 
+export function inverse(A) {
+    if (determinant(A) != 0) {
+        let cofactorMatrix = matrix(4);
+
+        for (let i = 0; i < A.length; i++) {
+            for (let j = 0; j < A[i].length; j++) {
+                cofactorMatrix[i][j] = cofactor(A, i, j);
+            }
+        }
+
+        let transposedMatrix = transpose(cofactorMatrix);
+        for (let i = 0; i < A.length; i++) {
+            for (let j = 0; j < A[i].length; j++) {
+                transposedMatrix[i][j] = (transposedMatrix[i][j] / determinant(A));
+            }
+        }
+        return transposedMatrix;
+    }
+    else {
+        return;
+    }
+}
+
 export function multiplyMatrix(A, B) {
     //larger matrix must be the first parameter!!!
     //this reassignment portion fixes this issue (patchwork maybe)
@@ -86,7 +109,7 @@ export function transpose(A) {
 
 export function determinant(A) {
     //if matrix is 2x2, calculate determinant using ad - bc
-    if(A.length <= 2) {
+    if(A.length == 2) {
         let ad = A[0][0] * A[1][1];
         let bc = A[0][1] * A[1][0];
         return (ad - bc);

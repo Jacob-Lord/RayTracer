@@ -1,6 +1,6 @@
 import {describe, test, it, expect} from "vitest";
 import { equal, point } from "../src/libs/tuples.feature";
-import { areMatricesEqual, cofactor, determinant, matrix, minor, multiplyMatrix, submatrix, transpose } from "../src/libs/matrices.feature";
+import { areMatricesEqual, cofactor, determinant, inverse, matrix, minor, multiplyMatrix, submatrix, transpose } from "../src/libs/matrices.feature";
 
 const identity_matrix = [[1, 0, 0, 0],
                          [0, 1, 0, 0],
@@ -390,5 +390,47 @@ describe(cofactor, () => {
         c = cofactor(A, 1, 0);
         expect(m).toBe(25);
         expect(c).toBe(-25);
+    })
+})
+
+describe(inverse, () => {
+    it('should return undefined if the matrix is not inveritble', () => {
+        let myMatrix = matrix(4);
+        myMatrix = [[-4, 2, -2, -3],
+                   [9, 6, 2, 6],
+                   [0, -5, 1, -5],
+                   [0, 0, 0, 0]];
+        expect(inverse(myMatrix)).toBeUndefined;
+    })
+
+    it('should return an inverted array object if the matrix is inveritble', () => {
+        let myMatrix = matrix(4);
+        myMatrix = [[-9, 2, -1, -3],
+                   [9, 6, 5, 6],
+                   [0, -5, 1, -5],
+                   [1, 0, 3, 0]];
+        expect(inverse(myMatrix)).toBeTypeOf('object');
+    })
+
+    it('should calculate the inverse of a 4x4 matrix', () => {
+        let A = matrix(4);
+        A = [[-5, 2, 6, -8],
+                   [1, -5, 1, 8],
+                   [7, 7, -6, -7],
+                   [1, -3, 7, 4]];
+        let expectedMatrix = matrix(4);
+        expectedMatrix = [[0.21805, 0.45113, 0.24060, -0.04511],
+                          [-0.80827, -1.45677, -0.44361, 0.52068],
+                          [-0.07895, -0.22368, -0.05263, 0.19737],
+                          [-0.52256, -0.81391, -0.30075, 0.30639]];
+
+        let B = inverse(A);
+        expect(determinant(A)).toBe(532);
+        expect(cofactor(A, 2, 3)).toBe(-160);
+        expect(equal(B[3][2],-(160/532))).toBe(true);
+        expect(cofactor(A, 3, 2)).toBe(105);
+        expect(equal(B[2][3], (105/532))).toBe(true);
+
+
     })
 })
