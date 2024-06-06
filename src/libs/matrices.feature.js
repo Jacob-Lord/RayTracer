@@ -33,21 +33,15 @@ export function areMatricesEqual(matrixA, matrixB) {
 
 export function inverse(A) {
     if (determinant(A) != 0) {
-        let cofactorMatrix = matrix(4);
+        let invertedMatrix = matrix(4);
 
         for (let i = 0; i < A.length; i++) {
             for (let j = 0; j < A[i].length; j++) {
-                cofactorMatrix[i][j] = cofactor(A, i, j);
+                let c = cofactor(A, i, j);
+                invertedMatrix[j][i] = (c / determinant(A)); //matrix[col][row] instead of [row][col] accomplishes the transpose operation!
             }
         }
-
-        let transposedMatrix = transpose(cofactorMatrix);
-        for (let i = 0; i < A.length; i++) {
-            for (let j = 0; j < A[i].length; j++) {
-                transposedMatrix[i][j] = (transposedMatrix[i][j] / determinant(A));
-            }
-        }
-        return transposedMatrix;
+        return invertedMatrix;
     }
     else {
         return;
