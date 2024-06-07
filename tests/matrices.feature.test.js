@@ -415,9 +415,9 @@ describe(inverse, () => {
     it('should calculate the inverse of a 4x4 matrix', () => {
         let A = matrix(4);
         A = [[-5, 2, 6, -8],
-                   [1, -5, 1, 8],
-                   [7, 7, -6, -7],
-                   [1, -3, 7, 4]];
+             [1, -5, 1, 8],
+             [7, 7, -6, -7],
+             [1, -3, 7, 4]];
         let expectedMatrix = matrix(4);
         expectedMatrix = [[0.21805, 0.45113, 0.24060, -0.04511],
                           [-0.80827, -1.45677, -0.44361, 0.52068],
@@ -430,7 +430,22 @@ describe(inverse, () => {
         expect(equal(B[3][2],-(160/532))).toBe(true);
         expect(cofactor(A, 3, 2)).toBe(105);
         expect(equal(B[2][3], (105/532))).toBe(true);
+    })
 
-
+    it('should return the original matrix if product is mutiplied by inverse of factor', () => {
+        //initialize matrices
+        let A = matrix(4);
+        let B = matrix(4);
+        A = [[3, -9, 7, 3],
+             [3, -8, 2, -9],
+             [-4, 4, 4, 1],
+             [-6, 5, -1, 1]];
+        B = [[8, 2, 2, 2],
+             [3, -1, 7, 0],
+             [7, 0, 5, 4],
+             [6, -2, 0, 5]];
+        
+        let C = multiplyMatrix(A, B);
+        expect(areMatricesEqual(multiplyMatrix(C, inverse(B)), A)).toBe(true);
     })
 })
