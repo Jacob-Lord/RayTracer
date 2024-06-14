@@ -1,5 +1,5 @@
 import {describe, test, it, expect} from "vitest";
-import { areTuplesEqual, point, vector } from "../src/libs/tuples.feature";
+import { areTuplesEqual, multiplyTuple, point, vector } from "../src/libs/tuples.feature";
 import { rotation_x, rotation_y, rotation_z, scaling, shearing, translation } from "../src/libs/transformations.feature";
 import { areMatricesEqual, inverse, multiplyMatrix } from "../src/libs/matrices.feature";
 
@@ -124,5 +124,35 @@ describe(shearing, () => {
         let p = point(2, 3, 4);
         expect(areTuplesEqual(multiplyMatrix(transform, p), point(2, 3, 7))).toBe(true);
     });
-    
+})
+
+//
+it('Individual transformations applied in sequence', () => {
+
+    let p = point(1, 0, 1);
+    let A = rotation_x(Math.PI/2);
+    let B = scaling(5, 5, 5);
+    let C = translation(10, 5, 7);
+
+    //apply rotation first
+    let p2 = multiplyMatrix(A, p);
+    expect(areTuplesEqual(p2, point(1, -1, 0))).toBe(true);
+
+    //then apply scaling
+    let p3 = multiplyMatrix(B, p2);
+    expect(areTuplesEqual(multiplyMatrix(B, p2), point(5, -5, 0))).toBe(true);
+
+    //then apply translation
+    let p4 = multiplyMatrix(C, p3);
+    expect(areTuplesEqual(multiplyMatrix(C, p3), point(15, 0, 7))).toBe(true);
+})
+
+it('Chained transformations must be applied in reverse order', () => {
+    let p = point(1, 0 ,1);
+    let A = rotation_x(Math.PI/2);
+    let B = scaling(5, 5, 5);
+    let C = translation(10, 5, 7);
+
+    let T = multiplyMatrix(C, multiplyMatrix(B, A));
+    expect(areTuplesEqual(multiplyMatrix(T, p), point(15, 0, 7))).toBe(true);
 })
