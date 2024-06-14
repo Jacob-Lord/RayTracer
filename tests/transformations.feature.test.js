@@ -1,7 +1,7 @@
 import {describe, test, it, expect} from "vitest";
-import { point, vector } from "../src/libs/tuples.feature";
-import { scaling, translation } from "../src/libs/transformations.feature";
-import { inverse, multiplyMatrix } from "../src/libs/matrices.feature";
+import { areTuplesEqual, equal, point, vector } from "../src/libs/tuples.feature";
+import { rotation_x, scaling, translation } from "../src/libs/transformations.feature";
+import { areMatricesEqual, inverse, multiplyMatrix } from "../src/libs/matrices.feature";
 
 describe(translation, () => {
     it('multiplying a translating matrix by a point', () => {
@@ -48,5 +48,22 @@ describe(scaling, () => {
         let transform = scaling(-1, 1, 1);
         let p = point(2, 3, 4);
         expect(multiplyMatrix(transform, p)).toStrictEqual(point(-2, 3, 4));
+    });
+})
+
+describe(rotation_x, () => {
+    it('should rotate properly around the x axis', () => {
+        let p = point(0, 1, 0);
+        let half_quarter = rotation_x(Math.PI / 4);
+        let  full_quarter = rotation_x(Math.PI / 2);
+        expect(areTuplesEqual(multiplyMatrix(half_quarter, p), point(0, Math.sqrt(2)/2, Math.sqrt(2)/2))).toBe(true);
+        expect(areTuplesEqual(multiplyMatrix(full_quarter, p), point(0, 0, 1))).toBe(true);
+    });
+
+    it('inverse of rotation_x matrix rotates in opposite direction', () => {
+        let p = point(0, 1, 0);
+        let half_quarter = rotation_x(Math.PI / 4);
+        let inv = inverse(half_quarter);
+        expect(areTuplesEqual(multiplyMatrix(inv, p), point(0, Math.sqrt(2)/2, -(Math.sqrt(2)/2)))).toBe(true);
     });
 })

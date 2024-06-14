@@ -23,6 +23,7 @@ export function areMatricesEqual(matrixA, matrixB) {
         for (let i = 0; i < sizeA; i++) {
             for (let j = 0; j < sizeB; j++) {
                if (!(equal(matrixA[i][j], matrixB[i][j]))) {
+                console.log('pass)');
                 return false;
                }
                }

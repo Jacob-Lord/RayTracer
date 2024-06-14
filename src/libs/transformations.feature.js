@@ -29,3 +29,18 @@ export function scaling(x, y, z) {
 
     return identity_matrix;     
 }
+
+export function rotation_x(radians) {
+        //define the 4x4 identity matrix
+        let identity_matrix = [[1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]];
+
+        identity_matrix[1][1] = Math.cos(radians);
+        identity_matrix[1][2] = -(Math.sin(radians));
+        identity_matrix[2][1] = Math.sin(radians);
+        identity_matrix[2][2] = Math.cos(radians);
+
+    return identity_matrix;
+}
