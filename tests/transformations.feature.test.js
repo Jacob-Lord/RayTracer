@@ -1,6 +1,6 @@
 import {describe, test, it, expect} from "vitest";
-import { areTuplesEqual, equal, point, vector } from "../src/libs/tuples.feature";
-import { rotation_x, scaling, translation } from "../src/libs/transformations.feature";
+import { areTuplesEqual, point, vector } from "../src/libs/tuples.feature";
+import { rotation_x, rotation_y, rotation_z, scaling, shearing, translation } from "../src/libs/transformations.feature";
 import { areMatricesEqual, inverse, multiplyMatrix } from "../src/libs/matrices.feature";
 
 describe(translation, () => {
@@ -55,7 +55,7 @@ describe(rotation_x, () => {
     it('should rotate properly around the x axis', () => {
         let p = point(0, 1, 0);
         let half_quarter = rotation_x(Math.PI / 4);
-        let  full_quarter = rotation_x(Math.PI / 2);
+        let full_quarter = rotation_x(Math.PI / 2);
         expect(areTuplesEqual(multiplyMatrix(half_quarter, p), point(0, Math.sqrt(2)/2, Math.sqrt(2)/2))).toBe(true);
         expect(areTuplesEqual(multiplyMatrix(full_quarter, p), point(0, 0, 1))).toBe(true);
     });
@@ -66,4 +66,63 @@ describe(rotation_x, () => {
         let inv = inverse(half_quarter);
         expect(areTuplesEqual(multiplyMatrix(inv, p), point(0, Math.sqrt(2)/2, -(Math.sqrt(2)/2)))).toBe(true);
     });
+})
+
+describe(rotation_y, () => {
+    it('rotating a point around the y axis', () => {
+        let p = point(0, 0, 1);
+        let half_quarter = rotation_y(Math.PI / 4);
+        let full_quarter = rotation_y(Math.PI / 2);
+        expect(areTuplesEqual(multiplyMatrix(half_quarter, p), point(Math.sqrt(2)/2, 0, Math.sqrt(2)/2))).toBe(true);
+        expect(areTuplesEqual(multiplyMatrix(full_quarter, p), point(1, 0, 0))).toBe(true);
+    })
+})
+
+describe(rotation_z, () => {
+    it('rotating a point around the z axis', () => {
+        let p = point(0, 1, 0);
+        let half_quarter = rotation_z(Math.PI / 4);
+        let full_quarter = rotation_z(Math.PI / 2);
+        expect(areTuplesEqual(multiplyMatrix(half_quarter, p), point(-(Math.sqrt(2)/2), Math.sqrt(2)/2, 0))).toBe(true);
+        expect(areTuplesEqual(multiplyMatrix(full_quarter, p), point(-1, 0, 0))).toBe(true);
+    })
+})
+
+describe(shearing, () => {
+    it('should move x in proportion to y', () => {
+        let transform = shearing(1, 0, 0, 0, 0, 0);
+        let p = point(2, 3, 4);
+        expect(areTuplesEqual(multiplyMatrix(transform, p), point(5, 3, 4))).toBe(true);
+    });
+
+    it('should move x in proportion to z', () => {
+        let transform = shearing(0, 1, 0, 0, 0, 0);
+        let p = point(2, 3, 4);
+        expect(areTuplesEqual(multiplyMatrix(transform, p), point(6, 3, 4))).toBe(true);
+    });
+
+    it('should move y in proportion to x', () => {
+        let transform = shearing(0, 0, 1, 0, 0, 0);
+        let p = point(2, 3, 4);
+        expect(areTuplesEqual(multiplyMatrix(transform, p), point(2, 5, 4))).toBe(true);
+    });
+
+    it('should move y in proportion to z', () => {
+        let transform = shearing(0, 0, 0, 1, 0, 0);
+        let p = point(2, 3, 4);
+        expect(areTuplesEqual(multiplyMatrix(transform, p), point(2, 7, 4))).toBe(true);
+    });
+
+    it('should move z in proportion to x', () => {
+        let transform = shearing(0, 0, 0, 0, 1, 0);
+        let p = point(2, 3, 4);
+        expect(areTuplesEqual(multiplyMatrix(transform, p), point(2, 3, 6))).toBe(true);
+    });
+
+    it('should move z in proportion to y', () => {
+        let transform = shearing(0, 0, 0, 0, 0, 1);
+        let p = point(2, 3, 4);
+        expect(areTuplesEqual(multiplyMatrix(transform, p), point(2, 3, 7))).toBe(true);
+    });
+    
 })
