@@ -1,5 +1,5 @@
-import * as tf from "./tuples.feature.js";
-import * as cf from "./canvas.feature.js";
+import * as tf from "../libs/tuples.feature.js";
+import * as cf from "../libs/canvas.feature.js";
 driver();
 
 

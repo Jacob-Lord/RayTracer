@@ -126,7 +126,6 @@ describe(shearing, () => {
     });
 })
 
-//
 it('Individual transformations applied in sequence', () => {
 
     let p = point(1, 0, 1);

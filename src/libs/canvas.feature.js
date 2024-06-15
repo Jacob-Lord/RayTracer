@@ -19,7 +19,7 @@ export function pixel_at(c, x, y) {
 }
 
 export function write_pixel(c, x, y, color) {
-  if (y < c.length && y > 0) {
+  if (y < c.length && y >= 0) {
     c[y][x] = color;
   }
 }
