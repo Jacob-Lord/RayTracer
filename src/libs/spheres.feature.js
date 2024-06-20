@@ -1,4 +1,6 @@
-import { dot, point, subtractTuples } from "./tuples.feature.js";
+import { dot, point, vector, subtractTuples } from "./tuples.feature.js";
+import { intersections, Intersection } from "./intersections.feature.js";
+import { Ray } from "./rays.feature.js";
 
 export class Sphere {
     constructor(id) {
@@ -25,9 +27,21 @@ export function intersect(sphere, ray) {
 
     //ensure values are returned in ascending order for future access
     if (t1 < t2) {
-        return [t1, t2];
+        let t1_obj = new Intersection(t1, sphere);
+        let t2_obj = new Intersection(t2, sphere);
+        let t = intersections(t1_obj, t2_obj);
+        return t;
+    }
+    else if (t2 < t1) {
+        let t1_obj = new Intersection(t1, sphere);
+        let t2_obj = new Intersection(t2, sphere);
+        let t = intersections(t2_obj, t1_obj);
+        return t;
     }
     else {
-        return [t2, t1];
+        let t1_obj = new Intersection(t1, sphere);
+        let t = intersections(t1_obj, t1_obj);
+        return t;
     }
 }
+

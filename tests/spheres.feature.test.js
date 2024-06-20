@@ -9,8 +9,8 @@ describe(Sphere, () => {
         let s = new Sphere(1);
         let xs = intersect(s, r);
         expect(xs.length).toBe(2);
-        expect(xs[0]).toBe(4.0);
-        expect(xs[1]).toBe(6.0);
+        expect(xs[0].t).toBe(4.0);
+        expect(xs[1].t).toBe(6.0);
     });
 
     it('should intersect a sphere at a tangent', () => {
@@ -18,8 +18,8 @@ describe(Sphere, () => {
         let s = new Sphere(2);
         let xs = intersect(s, r);
         expect(xs.length).toBe(2);
-        expect(xs[0]).toBe(5.0);
-        expect(xs[1]).toBe(5.0);
+        expect(xs[0].t).toBe(5.0);
+        expect(xs[1].t).toBe(5.0);
     });
 
     it('should miss the sphere', () => {
@@ -31,21 +31,29 @@ describe(Sphere, () => {
 
     it('should originate inside a sphere', () => {
         let r = new Ray(point(0,0,0), vector(0,0,1));
-        let s = new Sphere(2);
+        let s = new Sphere(4);
         let xs = intersect(s, r);
         expect(xs.length).toBe(2);
-        expect(xs[0]).toBe(-1.0);
-        expect(xs[1]).toBe(1.0);
+        expect(xs[0].t).toBe(-1.0);
+        expect(xs[1].t).toBe(1.0);
     });
 
     it('sphere is behind a ray', () => {
         let r = new Ray(point(0,0,5), vector(0,0,1));
-        let s = new Sphere(2);
+        let s = new Sphere(5);
         let xs = intersect(s, r);
         expect(xs.length).toBe(2);
-        expect(xs[0]).toBe(-6.0);
-        expect(xs[1]).toBe(-4.0);
+        expect(xs[0].t).toBe(-6.0);
+        expect(xs[1].t).toBe(-4.0);
     });
 
+    it('intersect sets the object on the intersection', () => {
+        let r = new Ray(point(0,0,-5), vector(0,0,1));
+        let s = new Sphere(6);
+        let xs = intersect(s, r);
+        expect(xs.length).toBe(2);
+        expect(xs[0].object).toBe(s);
+        expect(xs[1].object).toBe(s);
+    })
 })
 
