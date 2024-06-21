@@ -17,7 +17,7 @@ describe(intersections, () => {
         let s = new Sphere(2);
         let i1 = new Intersection(1, s);
         let i2 = new Intersection(2, s);
-        let xs = intersections(i1, i2);
+        let xs = intersections([i1, i2]);
         expect(xs.length).toBe(2);
         expect(xs[0].t).toBe(1);
         expect(xs[1].t).toBe(2);
@@ -29,7 +29,7 @@ describe('hit', () => {
         let s = new Sphere(1);
         let i1 = new Intersection(1, s);
         let i2 = new Intersection(2, s);
-        let xs = intersections(i2, i1);
+        let xs = intersections([i2, i1]);
 
         expect(hit(xs)).toBe(i1);
     });
@@ -38,7 +38,7 @@ describe('hit', () => {
         let s = new Sphere(2);
         let i1 = new Intersection(-1, s);
         let i2 = new Intersection(1, s);
-        let xs = intersections(i2, i1);
+        let xs = intersections([i2, i1]);
 
         expect(hit(xs)).toBe(i2);
     });
@@ -47,7 +47,7 @@ describe('hit', () => {
         let s = new Sphere(3);
         let i1 = new Intersection(-2, s);
         let i2 = new Intersection(-1, s);
-        let xs = intersections(i2, i1);
+        let xs = intersections([i2, i1]);
 
         expect(hit(xs)).toBe(undefined);
     });
@@ -58,7 +58,7 @@ describe('hit', () => {
         let i2 = new Intersection(7, s);
         let i3 = new Intersection(-3, s);
         let i4 = new Intersection(2, s);
-        let xs = intersections(i1, i2, i3, i4);
+        let xs = intersections([i1, i2, i3, i4]);
 
         expect(hit(xs)).toBe(i4);
     });

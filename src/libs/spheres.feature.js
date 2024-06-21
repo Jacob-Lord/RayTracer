@@ -29,18 +29,18 @@ export function intersect(sphere, ray) {
     if (t1 < t2) {
         let t1_obj = new Intersection(t1, sphere);
         let t2_obj = new Intersection(t2, sphere);
-        let t = intersections(t1_obj, t2_obj);
+        let t = intersections([t1_obj, t2_obj]);
         return t;
     }
     else if (t2 < t1) {
         let t1_obj = new Intersection(t1, sphere);
         let t2_obj = new Intersection(t2, sphere);
-        let t = intersections(t2_obj, t1_obj);
+        let t = intersections([t2_obj, t1_obj]);
         return t;
     }
     else {
         let t1_obj = new Intersection(t1, sphere);
-        let t = intersections(t1_obj, t1_obj);
+        let t = intersections([t1_obj, t1_obj]);
         return t;
     }
 }
