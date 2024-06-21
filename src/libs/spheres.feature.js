@@ -5,6 +5,10 @@ import { Ray } from "./rays.feature.js";
 export class Sphere {
     constructor(id) {
         this.id = id;
+        this.transform = [[1, 0, 0, 0],
+                          [0, 1, 0, 0],
+                          [0, 0, 1, 0],
+                          [0, 0, 0, 1]];
     }
 }
 
@@ -45,3 +49,7 @@ export function intersect(sphere, ray) {
     }
 }
 
+export function set_transform(sphere, transform) {
+    //Set the transform for a sphere object
+    sphere.transform = transform;
+}

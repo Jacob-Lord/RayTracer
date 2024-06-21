@@ -1,7 +1,8 @@
 import {describe, test, it, expect} from "vitest";
 import { point, vector } from "../src/libs/tuples.feature";
-import { intersect, Sphere } from "../src/libs/spheres.feature";
-import { Ray } from "../src/libs/rays.feature";
+import { intersect, set_transform, Sphere } from "../src/libs/spheres.feature";
+import { Ray, transform } from "../src/libs/rays.feature";
+import { translation } from "../src/libs/transformations.feature";
 
 describe(Sphere, () => {
     it('should have the ray intersect the sphere at two points', () => {
@@ -55,5 +56,24 @@ describe(Sphere, () => {
         expect(xs[0].object).toBe(s);
         expect(xs[1].object).toBe(s);
     })
+})
+
+describe(transform, () => {
+    it('a sphere should have a default transformation', () => {
+        //define the 4x4 identity matrix
+        let identity_matrix = [[1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]];
+        let s = new Sphere(7);
+        expect(s.transform).toStrictEqual(identity_matrix);
+    });
+
+    it('should change the sphere transformation', () => {
+        let s = new Sphere(8);
+        let t = translation(2, 3, 4);
+        set_transform(s, t);
+        expect(s.transform).toBe(t);
+    });
 })
 
