@@ -4,7 +4,7 @@ import * as sphere from "../libs/spheres.feature.js";
 import * as ray from "../libs/rays.feature.js";
 import * as transform from "../libs/transformations.feature.js";
 import { hit } from "../libs/intersections.feature.js";
-import { matrix, multiplyMatrix } from "../libs/matrices.feature.js";
+import { multiplyMatrix } from "../libs/matrices.feature.js";
 
 //start ray at z =-5
 let ray_origin = tf.point(0, 0, -5);
@@ -55,10 +55,13 @@ for (let y = 0; y < canvas_pixels-1; y++) {
             let r = new ray.Ray(ray_origin, tf.normalize(tf.subtractTuples(position, ray_origin)));
             let xs = sphere.intersect(shape, r);
 
+            //if the ray intersects the sphere, write the pixel to the canvas
+            //this will provide a silhouette of the object
             if (hit(xs) != undefined) {
                 cvs.write_pixel(canvas, x, y, my_color);
             }
         }
 }
 
+//save canvas contents to ppm file
 cvs.canvas_to_ppm(canvas);
