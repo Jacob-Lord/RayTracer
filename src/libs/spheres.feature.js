@@ -1,6 +1,7 @@
 import { dot, point, vector, subtractTuples } from "./tuples.feature.js";
 import { intersections, Intersection } from "./intersections.feature.js";
-import { Ray } from "./rays.feature.js";
+import { Ray, transform } from "./rays.feature.js";
+import { inverse } from "./matrices.feature.js";
 
 export class Sphere {
     constructor(id) {
@@ -13,6 +14,10 @@ export class Sphere {
 }
 
 export function intersect(sphere, ray) {
+
+    //allow a transformation to be assigned to a sphere
+    ray = transform(ray, inverse(sphere.transform));
+    
     //distance of sphere from origin
     let sphere_to_ray = subtractTuples(ray.origin, point(0, 0, 0));
     let a = dot(ray.direction, ray.direction);

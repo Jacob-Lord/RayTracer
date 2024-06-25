@@ -2,7 +2,7 @@ import {describe, test, it, expect} from "vitest";
 import { point, vector } from "../src/libs/tuples.feature";
 import { intersect, set_transform, Sphere } from "../src/libs/spheres.feature";
 import { Ray, transform } from "../src/libs/rays.feature";
-import { translation } from "../src/libs/transformations.feature";
+import { scaling, translation } from "../src/libs/transformations.feature";
 
 describe(Sphere, () => {
     it('should have the ray intersect the sphere at two points', () => {
@@ -74,6 +74,26 @@ describe(transform, () => {
         let t = translation(2, 3, 4);
         set_transform(s, t);
         expect(s.transform).toBe(t);
+    });
+
+    it('should intersect a scaled sphere with a ray', () => {
+        let r = new Ray(point(0,0,-5), vector(0,0,1));
+        let s = new Sphere(9);
+        set_transform(s, scaling(2, 2, 2));
+        let xs = intersect(s, r);
+
+        expect(xs.length).toBe(2);
+        expect(xs[0].t).toBe(3);
+        expect(xs[1].t).toBe(7);
+    });
+
+    it('should intersect a translated sphere with a ray', () => {
+        let r = new Ray(point(0,0,-5), vector(0,0,1));
+        let s = new Sphere(10);
+        set_transform(s, translation(5, 0, 0));
+        let xs = intersect(s, r);
+
+        expect(xs.length).toBe(0);
     });
 })
 
