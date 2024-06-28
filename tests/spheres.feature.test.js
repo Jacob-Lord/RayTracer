@@ -1,8 +1,9 @@
 import {describe, test, it, expect} from "vitest";
-import { normalize, point, vector } from "../src/libs/tuples.feature";
+import { areTuplesEqual, multiplyTuple, normalize, point, vector } from "../src/libs/tuples.feature";
 import { intersect, normal_at, set_transform, Sphere } from "../src/libs/spheres.feature";
 import { Ray, transform } from "../src/libs/rays.feature";
-import { scaling, translation } from "../src/libs/transformations.feature";
+import { rotation_z, scaling, translation } from "../src/libs/transformations.feature";
+import { multiplyMatrix } from "../src/libs/matrices.feature";
 
 describe(Sphere, () => {
     it('should have the ray intersect the sphere at two points', () => {
@@ -126,5 +127,20 @@ describe(normal_at, () => {
         let s = new Sphere(5);
         let n = normal_at(s, point(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3));
         expect(n).toStrictEqual(normalize(n));
+    });
+
+    it('should compute the normal on a translated sphere', () => {
+        let s = new Sphere(6);
+        set_transform(s, translation(0, 1, 0));
+        let n = normal_at(s, point(0, 1.70711, -0.70711));
+        expect(areTuplesEqual(n, vector(0, 0.70711, -0.70711))).toBe(true);
+    });
+
+    it('should compute the normal on a transformed sphere', () => {
+        let s = new Sphere(7);
+        let m = multiplyMatrix(scaling(1, 0.5, 1), rotation_z(Math.PI/5));
+        set_transform(s, m);
+        let n = normal_at(s, point(0, Math.sqrt(2)/2, -(Math.sqrt(2)/2)));
+        expect(areTuplesEqual(n,vector(0, 0.97014, -0.24254))).toBe(true); //pg 161 to make these pass
     });
 })

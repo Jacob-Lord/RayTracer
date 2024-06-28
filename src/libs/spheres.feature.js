@@ -1,7 +1,7 @@
-import { dot, normalize, point, vector, subtractTuples } from "./tuples.feature.js";
+import { dot, multiplyTuple, normalize, point, vector, subtractTuples } from "./tuples.feature.js";
 import { intersections, Intersection } from "./intersections.feature.js";
 import { Ray, transform } from "./rays.feature.js";
-import { inverse } from "./matrices.feature.js";
+import { inverse, multiplyMatrix, transpose } from "./matrices.feature.js";
 
 export class Sphere {
     constructor(id) {
@@ -59,6 +59,11 @@ export function set_transform(sphere, transform) {
     sphere.transform = transform;
 }
 
-export function normal_at(sphere, p) {
-    return normalize(subtractTuples(p, point(0, 0, 0)));
+export function normal_at(sphere, world_point) {
+    let object_point = multiplyMatrix(inverse(sphere.transform), world_point);
+    let object_normal = subtractTuples(object_point, point(0,0,0));
+    let world_normal = multiplyMatrix(transpose(inverse(sphere.transform)), object_normal);
+    //avoid finding a submatrix and multiplying by inverse/ transposing that by setting world_normal.w to 0 after multiplying by transpose matrix
+    world_normal[3] = 0; 
+    return normalize(world_normal);
 }
