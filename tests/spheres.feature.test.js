@@ -117,8 +117,14 @@ describe(normal_at, () => {
     });
 
     it('should compute the normal on a sphere at a nonaxial point', () => {
-        let s = Sphere(3);
+        let s = Sphere(4);
         let n = normal_at(s, point(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3));
         expect(n).toStrictEqual(vector(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3));
+    });
+
+    it('should compute the normal on a sphere at a nonaxial point', () => {
+        let s = Sphere(5);
+        let n = normal_at(s, point(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3));
+        expect(n).toStrictEqual(normalize(n));
     });
 })
