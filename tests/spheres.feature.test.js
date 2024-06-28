@@ -1,6 +1,6 @@
 import {describe, test, it, expect} from "vitest";
 import { point, vector } from "../src/libs/tuples.feature";
-import { intersect, set_transform, Sphere } from "../src/libs/spheres.feature";
+import { intersect, normal_at, set_transform, Sphere } from "../src/libs/spheres.feature";
 import { Ray, transform } from "../src/libs/rays.feature";
 import { scaling, translation } from "../src/libs/transformations.feature";
 
@@ -97,3 +97,28 @@ describe(transform, () => {
     });
 })
 
+describe(normal_at, () => {
+    it('should compute the normal on a sphere at a point on the x axis', () => {
+        let s = Sphere(1);
+        let n = normal_at(s, point(1,0,0));
+        expect(n).toStrictEqual(vector(1, 0, 0));
+    });
+
+    it('should compute the normal on a sphere at a point on the y axis', () => {
+        let s = Sphere(2);
+        let n = normal_at(s, point(0,1,0));
+        expect(n).toStrictEqual(vector(0, 1, 0));
+    });
+
+    it('should compute the normal on a sphere at a point on the z axis', () => {
+        let s = Sphere(3);
+        let n = normal_at(s, point(0,0,1));
+        expect(n).toStrictEqual(vector(0, 0, 1));
+    });
+
+    it('should compute the normal on a sphere at a nonaxial point', () => {
+        let s = Sphere(3);
+        let n = normal_at(s, point(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3));
+        expect(n).toStrictEqual(vector(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3));
+    });
+})

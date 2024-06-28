@@ -8,7 +8,6 @@ import { multiplyMatrix } from "../libs/matrices.feature.js";
 
 //start ray at z =-5
 let ray_origin = tf.point(0, 0, -5);
-let ray_direction = tf.vector(0, 0, 1);
 
 //put wall at z = 10
 let wall_z = 10;
@@ -42,25 +41,23 @@ let shape = new sphere.Sphere(1);
 //iterate through pixels in canvas
 for (let y = 0; y < canvas_pixels-1; y++) {
     //compute the world y coordinate (top = +half, bottom = -half)
-        let world_y = half - pixel_size * y;
+    let world_y = half - pixel_size * y;
 
-        for (let x = 0; x < canvas_pixels-1; x++) {
-            //compute the world x coordinate (left = -half, right = half)
-            let world_x = -half + pixel_size * x;
-
-            //describe point on wall ray will target
-            let position = tf.point(world_x, world_y, wall_z);
-
-            //describe ray and ray-sphere intersection
-            let r = new ray.Ray(ray_origin, tf.normalize(tf.subtractTuples(position, ray_origin)));
-            let xs = sphere.intersect(shape, r);
-
-            //if the ray intersects the sphere, write the pixel to the canvas
-            //this will provide a silhouette of the object
-            if (hit(xs) != undefined) {
-                cvs.write_pixel(canvas, x, y, my_color);
-            }
+    for (let x = 0; x < canvas_pixels-1; x++) {
+        //compute the world x coordinate (left = -half, right = half)
+        let world_x = -half + pixel_size * x;
+        //describe point on wall ray will target
+        let position = tf.point(world_x, world_y, wall_z);
+        //describe ray and ray-sphere intersection
+        let r = new ray.Ray(ray_origin, tf.normalize(tf.subtractTuples(position, ray_origin)));
+        let xs = sphere.intersect(shape, r);
+        
+        //if the ray intersects the sphere, write the pixel to the canvas
+        //this will provide a silhouette of the object
+        if (hit(xs) != undefined) {
+            cvs.write_pixel(canvas, x, y, my_color);
         }
+    }
 }
 
 //save canvas contents to ppm file
