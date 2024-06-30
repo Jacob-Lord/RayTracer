@@ -1,5 +1,5 @@
 import {describe, test, it, expect} from "vitest";
-import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize, dot, cross, color, addColors, subtractColors, multiplyColor, hadamard_product } from "../src/libs/tuples.feature";
+import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize, dot, cross, color, addColors, reflect, subtractColors, multiplyColor, hadamard_product } from "../src/libs/tuples.feature";
 
 describe('isVector', () => {
     it('should return false if w is equal to 1 (a point)', () => {
@@ -187,4 +187,20 @@ describe('hadamard_product', () => {
         expect(c3.green).toBeCloseTo(0.2);
         expect(c3.blue).toBeCloseTo(0.04);
     });
+})
+
+describe('reflect', () => {
+    it('should reflect a vector approaching at 45 degrees', () => {
+        let v = vector(1, -1, 0);
+        let n = vector(0, 1, 0);
+        let r = reflect(v, n);
+        expect(areTuplesEqual(r, vector(1, 1, 0))).toBe(true);
+    });
+
+    it('should reflect a vector off a slanted surface', () => {
+        let v = vector(0, -1, 0);
+        let n = vector(Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
+        let r = reflect(v, n);
+        expect(areTuplesEqual(r,vector(1, 0, 0))).toBe(true);
+    })
 })
