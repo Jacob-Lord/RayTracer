@@ -4,6 +4,7 @@ import { intersect, normal_at, set_transform, Sphere } from "../src/libs/spheres
 import { Ray, transform } from "../src/libs/rays.feature";
 import { rotation_z, scaling, translation } from "../src/libs/transformations.feature";
 import { multiplyMatrix } from "../src/libs/matrices.feature";
+import { Material } from "../src/libs/materials.feature";
 
 describe(Sphere, () => {
     it('should have the ray intersect the sphere at two points', () => {
@@ -143,4 +144,20 @@ describe(normal_at, () => {
         let n = normal_at(s, point(0, Math.sqrt(2)/2, -(Math.sqrt(2)/2)));
         expect(areTuplesEqual(n,vector(0, 0.97014, -0.24254))).toBe(true); //pg 161 to make these pass
     });
+})
+
+describe(Material, () => {
+    it('should have a default material', () => {
+        let s = new Sphere(1);
+        let m = s.material;
+        expect(m).toStrictEqual(new Material(1));
+    })
+
+    it('should be able to be assigned a material', () => {
+        let s = new Sphere(2);
+        let m = new Material(2);
+        m.ambient = 1;
+        s.material = m;
+        expect(s.material).toBe(m);
+    })
 })

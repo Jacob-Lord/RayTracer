@@ -2,7 +2,7 @@ import { dot, multiplyTuple, normalize, point, vector, subtractTuples } from "./
 import { intersections, Intersection } from "./intersections.feature.js";
 import { Ray, transform } from "./rays.feature.js";
 import { inverse, multiplyMatrix, transpose } from "./matrices.feature.js";
-
+import { Material } from "./materials.feature.js";
 export class Sphere {
     constructor(id) {
         this.id = id;
@@ -10,6 +10,7 @@ export class Sphere {
                           [0, 1, 0, 0],
                           [0, 0, 1, 0],
                           [0, 0, 0, 1]];
+        this.material = new Material(id);
     }
 }
 
