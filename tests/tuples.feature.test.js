@@ -1,5 +1,5 @@
 import {describe, test, it, expect} from "vitest";
-import { isVector, point, vector, equal, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize, dot, cross, color, addColors, reflect, subtractColors, multiplyColor, hadamard_product } from "../src/libs/tuples.feature";
+import { isVector, point, vector, equal, areColorsEqual, areTuplesEqual, addTuples, subtractTuples, negateTuple, multiplyTuple, magnitude, normalize, dot, cross, color, addColors, reflect, subtractColors, multiplyColor, hadamard_product } from "../src/libs/tuples.feature";
 
 describe('isVector', () => {
     it('should return false if w is equal to 1 (a point)', () => {
@@ -38,6 +38,20 @@ describe('areTuplesEqual', () => {
 
     it('should return false if args are not equal due to small floating point diff', () => {
         expect(areTuplesEqual([4.0, -4.0, 3.0, 1.0], [4.0001, -4.0, 3.0, 1.0])).toBe(false)
+    });
+})
+
+describe('areColorsEqual', () => {
+    it('should return true if args are equal', () => {
+        expect(areColorsEqual(color(0.7348, 0.7348, 0.7348), color(0.7348, 0.7348, 0.7348))).toBe(true);
+    });
+
+    it('should return true if args are only different by the millionth', () => {
+        expect(areColorsEqual(color(0.734890, 0.734890, 0.734890), color(0.734891, 0.734891, 0.734891))).toBe(true);
+    });
+
+    it('should return false if args are different by the hundreth thousandth or greater', () => {
+        expect(areColorsEqual(color(0.7348, 0.7348, 0.7348), color(0.73489, 0.73489, 0.73489))).toBe(false);
     });
 })
 

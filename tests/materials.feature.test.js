@@ -1,6 +1,6 @@
 import {describe, test, it, expect} from "vitest";
-import { Material } from "../src/libs/materials.feature";
-import { areTuplesEqual, point, vector } from "../src/libs/tuples.feature";
+import { lighting, Material } from "../src/libs/materials.feature";
+import { areColorsEqual, areTuplesEqual, color, normalize, point, vector } from "../src/libs/tuples.feature";
 import { Point_light } from "../src/libs/lights.feature";
 
 describe(Material, () => {
@@ -22,17 +22,17 @@ describe(lighting, () => {
         let normalv = vector(0, 0, -1);
         let light = new Point_light(point(0, 0, -10), color(1, 1, 1));
         let result = lighting(m, light, position, eyev, normalv);
-        expect(areTuplesEqual(result, color(1.9, 1.9, 1.9))).toBe(true);
+        expect(areColorsEqual(result, color(1.9, 1.9, 1.9))).toBe(true);
     });
 
-    it("should return the correct lighting values with the eye between the light and surface, eye offset 45 degrees", () => {
+    it("should return correct lighting values with the eye between the light and surface, eye offset 45 degrees", () => {
         let m = new Material(2);
         let position = point(0, 0, 0);
         let eyev = vector(0, Math.sqrt(2)/2, -Math.sqrt(2)/2);
         let normalv = vector(0, 0, -1);
         let light = new Point_light(point(0, 0, -10), color(1, 1, 1));
         let result = lighting(m, light, position, eyev, normalv);
-        expect(areTuplesEqual(result, color(1.0, 1.0, 1.0))).toBe(true);
+        expect(areColorsEqual(result, color(1.0, 1.0, 1.0))).toBe(true);
     });
 
     it("lighting with eye opposite surface, light offset 45 degrees", () => {
@@ -42,7 +42,7 @@ describe(lighting, () => {
         let normalv = vector(0, 0, -1);
         let light = new Point_light(point(0, 10, -10), color(1, 1, 1));
         let result = lighting(m, light, position, eyev, normalv);
-        expect(areTuplesEqual(result, color(0.7364, 0.7364, 0.7364))).toBe(true);
+        expect(areColorsEqual(result, color(0.7364, 0.7364, 0.7364))).toBe(true);
     });
 
     it("lighting with eye in the path of reflection vector", () => {
@@ -52,7 +52,7 @@ describe(lighting, () => {
         let normalv = vector(0, 0, -1);
         let light = new Point_light(point(0, 10, -10), color(1, 1, 1));
         let result = lighting(m, light, position, eyev, normalv);
-        expect(areTuplesEqual(result, color(1.6364, 1.6364, 1.6364))).toBe(true);
+        expect(areColorsEqual(result, color(1.6364, 1.6364, 1.6364))).toBe(true);
     });
 
     it("lighting with light behind the surface", () => {
@@ -62,6 +62,6 @@ describe(lighting, () => {
         let normalv = vector(0, 0, -1);
         let light = new Point_light(point(0, 0, 10), color(1, 1, 1));
         let result = lighting(m, light, position, eyev, normalv);
-        expect(areTuplesEqual(result, color(0.1, 0.1, 0.1))).toBe(true);
+        expect(areColorsEqual(result, color(0.1, 0.1, 0.1))).toBe(true);
     });
 })

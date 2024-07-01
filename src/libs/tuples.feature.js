@@ -9,6 +9,15 @@ export function areTuplesEqual([x1, y1, z1, w1], [x2, y2, z2, w2]) {
     }
 }
 
+export function areColorsEqual(c1, c2) {
+    if (Math.abs(c1.red-c2.red) < EPSILON && Math.abs(c1.green-c2.green) < EPSILON && Math.abs(c1.blue-c2.blue) < EPSILON) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 export function equal(a, b) {
     if (Math.abs(a-b) < EPSILON) {
         return true;
