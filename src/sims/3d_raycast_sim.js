@@ -16,7 +16,9 @@ let wall_z = 10;
 let wall_size = 7;
 
 //set size of canvas
-const canvas_pixels = 100;
+//the larger the pixels, the higher the resolution
+//O(n^2) time with the double loop to write pixels to canvas, so more pixels takes forever
+const canvas_pixels = 250; //1000px takes ~1 minute
 
 //calculate world size of a pixel
 const pixel_size = (wall_size / canvas_pixels);
@@ -30,10 +32,10 @@ let shape = new sphere.Sphere(1);
 
 //assign a material to the sphere
 shape.material = new Material();
-shape.material.color = tf.color(1, 0.2, 1);
+shape.material.color = tf.color(0.4, 0.4, 1); //light grayish-blue
 
 //add a light source | this one is a white light, above and to the left of the eye
-let light_position = tf.point(-10, 10, -10);
+let light_position = tf.point(-10, -10, -10);
 let light_color = tf.color(1, 1, 1);
 let light = new Point_light(light_position, light_color);
 
