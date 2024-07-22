@@ -12,7 +12,7 @@ describe(World, () => {
     })
 })
 
-describe(default_world, (world) => {
+describe(default_world, () => {
     it('world should be configured to default values', () => {
         //initialize expected default light source
         let light = new Point_light(point(-10, 10, -10), color(1, 1, 1));
@@ -36,6 +36,15 @@ describe(default_world, (world) => {
     })
 })
 
-// describe(intersect_world, () => {
-
-// })
+describe(intersect_world, () => { //intersect_world must return intersections in sorted order to work
+    it('intersect a world with a ray', () => {
+        let w = default_world()
+        let r = new Ray(point(0, 0, 0-5), vector(0, 0, 1))
+        let xs = intersect_world(w, r)
+        expect(xs.length).toBe(4)
+        expect(xs[0].t).toBe(4)
+        expect(xs[0].t).toBe(4.5)
+        expect(xs[0].t).toBe(5.5)
+        expect(xs[0].t).toBe(6)
+    })
+})
